@@ -1,0 +1,23 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.element {
+    text-align: center;
+    width: 0px;
+    height: 0px;
+    font-size: 20px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.element-item {
+    width: 40px;
+}
+
+.element-item-number {
+    height: 20px;
+    width: 40px;
+    text-align: center;
+}
