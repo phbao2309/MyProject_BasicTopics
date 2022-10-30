@@ -1,22 +1,33 @@
 <template>
-    <h1>{{length}}</h1>
-    <h1>{{array}}</h1>
-    <h1>Heap Sort</h1>
-    <button @click="submit()">click</button>
+    <div class="element" style="height: 250px;"></div>
+        <div
+            class="element"
+            v-for="(element, index) in array" :key="index"
+            :style="{
+                transform: `translate(${element.x}px, ${element.y}px)`,
+            }"
+        >
+            <div
+                class="element-item"
+                :style="{
+                    backgroundColor: `${element.color}`,
+                    height: `${element.data * 10}px`,
+                }"
+            >
+            </div>
+        <div class="element-item-number">{{ element.data }}</div>
+    </div>
 </template>
 
 <script>
+    import heapsort from '../utils/heapsort';
+
     export default {
-        props: ['array'],
-        data() {
-            return {
-                length: 0,
-            }
-        },
+        props: ['array', 'colors'],
         methods: {
-            submit() {
-                this.length = this.array.length;
-            }
+            async start() {
+               heapsort(this.array.length, this.array, this.colors);
+            },
         }
     }
 </script>
