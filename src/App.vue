@@ -1,4 +1,6 @@
 <script>
+    // import swalert
+    import { swalert } from "@/mixins/swal.mixin";
     // import tool
     import { shuffed } from './utils/tool.js';
     // import component
@@ -23,7 +25,7 @@
             return {
                 array: [], // một mảng gồm các opject {data, x, y, selected, sorted}
                 arrayInput: '10, 14, 8, 9, 20',
-                length: Math.floor(Math.random() * 15) + 7,
+                length:  Math.floor(Math.random() * 10) + 5,
                 statusChoiceAlogirthm: 'shaker', // trạng thái chọn thuật toán, mặc định là bubble sort
                 isSorted: false, // đánh dấu mảng chưa được sắp xếp
                 // bảng màu dành cho việc đánh dấu
@@ -33,7 +35,8 @@
                     sorted: 'rgb(255, 165, 0)',
                     selected: 'rgb(220, 20, 60)',
                     pivot: 'rgb(153, 50, 204)',
-                }
+                },
+                width: window.innerWidth
             }
         },
         methods: {
@@ -44,7 +47,7 @@
                     this.array = [];
                 }
 
-                if (this.length <= 20) {
+                if (this.length <= 20 && this.length >= 5) {
                     // mảng chứa các phần tử từ 1 đến lenght
                     for (let i = 0; i < this.length; i++) {
                         this.array.push({
@@ -63,6 +66,15 @@
                         this.array[i].x = x;
                         this.array[i].y = 0;
                     }
+                } else {
+                    swalert
+                        .fire({
+                            title: "Đầu vào không đúng",
+                            icon: "warning",
+                            text: "Giới hạn dữ liệu đầu vào từ 5 đến 20",
+                            showCloseButton: true,
+                            // showCancelButton: true,
+                        });
                 }
             },
             create() {
@@ -89,7 +101,15 @@
                                 color: this.colors.default,
                             })
                         } else {
-                            alert("Dữ liệu đầu vào không đúng");
+                            // alert("Dữ liệu đầu vào không đúng");
+                            swalert
+                                .fire({
+                                    title: "Đầu vào không đúng",
+                                    icon: "warning",
+                                    text: "Dữ liệu giới hạn tối đa cho mỗi phần tử là 20 và được cách nhau bởi dấu ',' hoặc ';'",
+                                    showCloseButton: true,
+                                    // showCancelButton: true,
+                                });
                         }
                     }
 
@@ -104,7 +124,14 @@
             },
             start() {
                 if (this.isSorted) {
-                    alert("Mảng đã được sắp xếp");
+                    swalert
+                        .fire({
+                            title: "Lỗi",
+                            icon: "warning",
+                            text: "Mảng đã được sắp xếp",
+                            showCloseButton: true,
+                            // showCancelButton: true,
+                        });
                 } else {
                     this.$refs[this.statusChoiceAlogirthm].start();
                     this.isSorted = true;
@@ -113,7 +140,7 @@
             clear() {
                 this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                 this.array = [];
-            },
+            }
         },
         created() {
             this.random();
@@ -282,6 +309,7 @@
     }
 
     .main {
+        width: 100%;
         padding-left: 20px;
     }
 
@@ -317,7 +345,7 @@
         color: white;
     }
 
-    @media only screen and (max-width: 900px) {
+    @media only screen and (max-width: 1200px) {
         .navigation {
             padding-left: 0px;
         }
