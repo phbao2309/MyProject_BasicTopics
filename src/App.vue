@@ -24,7 +24,7 @@
                 array: [], // một mảng gồm các opject {data, x, y, selected, sorted}
                 arrayInput: '10, 14, 8, 9, 20',
                 length: Math.floor(Math.random() * 15) + 7,
-                statusChoiceAlogirthm: 'selection', // trạng thái chọn thuật toán, mặc định là bubble sort
+                statusChoiceAlogirthm: 'insertion', // trạng thái chọn thuật toán, mặc định là bubble sort
                 isSorted: false, // đánh dấu mảng chưa được sắp xếp
                 // bảng màu dành cho việc đánh dấu
                 colors: {
