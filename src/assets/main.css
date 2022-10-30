@@ -21,3 +21,8 @@
     width: 40px;
     text-align: center;
 }
+
+/* Tối ưu cho mobile */
+@media only screen and (max-width: 900px) {
+
+}

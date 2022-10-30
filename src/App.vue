@@ -113,7 +113,7 @@
             clear() {
                 this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                 this.array = [];
-            }
+            },
         },
         created() {
             this.random();
@@ -175,7 +175,7 @@
         >Start</button>
 
         <button 
-            class="btn btn-secondary btn-sm" type="button" 
+            class="btn-right btn btn-secondary btn-sm" type="button" 
             style="margin-left: 5px; width: 65.5px;"
             @click="clear()"
         >Clear</button>
@@ -286,10 +286,11 @@
     }
 
     .navigation {
+        width: 100%;
         padding-left: 50px;
         display: flex;
         align-items: center;
-        height: 50px;
+        min-height: 50px;
         background-color: black;
     }
     .title {
@@ -301,6 +302,7 @@
     }
 
     .title-item {
+        width: 85px;
         display: inline;
         margin: 10px;
         cursor: pointer;
@@ -313,5 +315,20 @@
 
     .title-item:hover {
         color: white;
+    }
+
+    @media only screen and (max-width: 900px) {
+        .navigation {
+            padding-left: 0px;
+        }
+
+        .btn-right {
+            margin-right: 20px;
+        }
+
+        .main {
+            margin-left: 0px;
+            padding-left: 0px;
+        }
     }
 </style>
