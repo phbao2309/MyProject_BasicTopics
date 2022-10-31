@@ -1,6 +1,6 @@
 <script>
     // import swalert
-    import { swalert } from "@/mixins/swal.mixin";
+    import { swalert, swtoast } from "@/mixins/swal.mixin";
     // import tool
     import { shuffed } from './utils/tool.js';
     // import component
@@ -89,14 +89,15 @@
                         this.array[i].x = x;
                         this.array[i].y = 0;
                     }
+                    swtoast.success({
+                        text: "Tạo mảng thành công"
+                    });
                 } else {
                     swalert
                         .fire({
                             title: "Đầu vào không đúng",
                             icon: "warning",
                             text: "Giới hạn dữ liệu đầu vào từ 5 đến 20",
-                            showCloseButton: true,
-                            // showCancelButton: true,
                         });
                 }
             },
@@ -108,16 +109,17 @@
                             title: "Đầu vào không đúng",
                             icon: "warning",
                             text: "Dữ liệu đầu vào rỗng!",
-                            showCloseButton: true,
-                            // showCancelButton: true,
                         });
                 } else {
+                    this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
+                    this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                     // kiểm tra array gốc xem nó có phần tử hay chưa, nếu có thì xóa
                     if (this.array !== []) {
                         this.array = [];
                     }
 
                     // tách và kiểm tra chuỗi
+                    let count = 0;
                     for (let i = 0; i < this.arrayInput.split(/[,:]/).length; i++) {
                         // kiểm tra xem phần tử có phải là số hay không
                         if (
@@ -126,28 +128,38 @@
                             parseInt(this.arrayInput.split(/[,;]/)[i]) <= 20
                         ) {
                             let number = parseInt(this.arrayInput.split(/[,;]/)[i]);
+                            console.log(parseInt(this.arrayInput.split(/[,;]/)[i]));
                             this.array.push({
                                 data: number,
                                 color: this.colors.default,
                             })
                         } else {
-                            // alert("Dữ liệu đầu vào không đúng");
+                            count ++;
                             swalert
                                 .fire({
                                     title: "Đầu vào không đúng",
                                     icon: "warning",
                                     text: "Dữ liệu giới hạn tối đa cho mỗi phần tử là 20 và được cách nhau bởi dấu ',' hoặc ';'",
-                                    showCloseButton: true,
-                                    // showCancelButton: true,
                                 });
                         }
                     }
+                    
+                    if (count != 0) {
+                        this.array = [];
+                    }
+
                     // thêm x, y để tạo hiệu ứng transform
-                    let x = 0;
-                    for (let i = 0; i < this.array.length; i++) {
-                        x += 40;
-                        this.array[i].x = x;
-                        this.array[i].y = 0;
+                    if (this.array.length !== 0) {
+                        let x = 0;
+                        for (let i = 0; i < this.array.length; i++) {
+                            x += 40;
+                            this.array[i].x = x;
+                            this.array[i].y = 0;
+                        }
+                        
+                        swtoast.success({
+                            text: "Tạo mảng thành công"
+                        });
                     }
                 }
             },
@@ -158,8 +170,6 @@
                             title: "Lỗi",
                             icon: "warning",
                             text: "Chưa tạo mảng",
-                            showCloseButton: true,
-                            // showCancelButton: true,
                         });
                 } else if (this.isSorted) {
                     swalert
@@ -167,8 +177,6 @@
                             title: "Lỗi",
                             icon: "warning",
                             text: "Mảng đã được sắp xếp",
-                            showCloseButton: true,
-                            // showCancelButton: true,
                         });
                 } else if (!this.isSorted && !this.isSorting) {
                     this.isSorting = true; // đánh dấu mảng đang được sắp xếp
@@ -197,8 +205,6 @@
                             title: "Lỗi",
                             icon: "warning",
                             text: "Hãy xoay màn hình ngang để có trãi nghiệm tốt hơn",
-                            showCloseButton: true,
-                            // showCancelButton: true,
                         });
                 }
             }
