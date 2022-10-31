@@ -197,7 +197,7 @@
 </script>
 
 <template>
-    <div class="navigation">
+    <div class="navigation nav">
         <span class="title">
             <p 
                 class="title-item" 
@@ -236,24 +236,26 @@
             >Insertion sort</p>
         </span>
 
-        <button 
-            class="btn btn-secondary btn-sm"
-            type="button" data-bs-toggle="offcanvas" 
-            data-bs-target="#offcanvasWithBothOptions" 
-            aria-controls="offcanvasWithBothOptions"
-        >Custom</button>
+        <div class="navigation-item">
+            <button 
+                class="btn btn-secondary btn-sm"
+                type="button" data-bs-toggle="offcanvas" 
+                data-bs-target="#offcanvasWithBothOptions" 
+                aria-controls="offcanvasWithBothOptions"
+            >Custom</button>
 
-        <button 
-            class="btn btn-secondary btn-sm" type="button" 
-            style="margin-left: 5px; width: 65.5px;"
-            @click="start()"
-        >Start</button>
+            <button 
+                class="btn btn-secondary btn-sm" type="button" 
+                style="margin-left: 5px; width: 65.5px;"
+                @click="start()"
+            >Start</button>
 
-        <button 
-            class="btn-right btn btn-secondary btn-sm" type="button" 
-            style="margin-left: 5px; width: 65.5px;"
-            @click="clear()"
-        >Clear</button>
+            <button 
+                class="btn-right btn btn-secondary btn-sm" type="button" 
+                style="margin-left: 5px; width: 65.5px;"
+                @click="clear()"
+            >Clear</button>
+        </div>
 
         <div 
             class="offcanvas offcanvas-start" 
@@ -395,16 +397,27 @@
 
     @media only screen and (max-width: 1200px) {
         .navigation {
+            display: flex;
+            justify-content: center;
             padding-left: 0px;
         }
 
-        .btn-right {
-            margin-right: 20px;
+        .title {
+            margin-right: 0px;
         }
 
         .main {
             margin-left: 0px;
             padding-left: 0px;
         }
+
+        .navigation-item {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
     }
 </style>
