@@ -188,9 +188,22 @@
                 this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
                 this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                 this.array = [];
+            },
+            notificationWhenScreenMobile() {
+                if (this.width < 500) {
+                    swalert
+                        .fire({
+                            title: "Lỗi",
+                            icon: "warning",
+                            text: "Hãy xoay màn hình ngang để có trãi nghiệm tốt hơn",
+                            showCloseButton: true,
+                            // showCancelButton: true,
+                        });
+                }
             }
         },
         created() {
+            this.notificationWhenScreenMobile();
             this.randomWhenToStart();
         }
     }
@@ -313,7 +326,7 @@
         </div>
     </div>
     
-    <div class="main">
+    <div class="main" :class="{'main_display': width < 500}">
         <bubble-sort 
             :array="array" :colors="colors" 
             v-if="statusChoiceAlogirthm === 'bubble'" 
@@ -420,5 +433,8 @@
             padding-left: 10px;
         }
 
+        .main_display {
+            display: none;
+        }
     }
 </style>
