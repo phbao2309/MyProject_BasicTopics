@@ -26,7 +26,7 @@
         props: ['array', 'colors'],
         methods: {
             async start() {
-               quicksort(this.array.length, this.array, this.colors);
+               await quicksort(this.array.length, this.array, this.colors);
             },
         }
     }

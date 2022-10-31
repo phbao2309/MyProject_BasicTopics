@@ -28,6 +28,7 @@
                 length:  Math.floor(Math.random() * 10) + 5,
                 statusChoiceAlogirthm: 'shaker', // trạng thái chọn thuật toán, mặc định là bubble sort
                 isSorted: false, // đánh dấu mảng chưa được sắp xếp
+                isSorting: false, // đánh dấu mảng đang sắp xếp 
                 // bảng màu dành cho việc đánh dấu
                 colors: {
                     default: 'rgb(173, 216, 230)',
@@ -40,10 +41,32 @@
             }
         },
         methods: {
+            randomWhenToStart() {
+                this.isSorted = false; // đánh dấu mảng chưa được sắp xếp
+                // mảng chứa các phần tử từ 1 đến lenght
+                for (let i = 0; i < this.length; i++) {
+                    this.array.push({
+                        data: Math.floor(Math.random() * 20) + 1,
+                        color: 'rgb(173, 216, 230)',
+                    });
+                }
+
+                // trộn ngẫu nhiên các phần tử trong mảng
+                this.array = shuffed(shuffed(shuffed(this.array)));
+
+                // thêm x, y để tạo hiệu ứng transform
+                let x = 0;
+                for (let i = 0; i < this.length; i++) {
+                    x += 40;
+                    this.array[i].x = x;
+                    this.array[i].y = 0;
+                }
+            },
             random() {
                 this.isSorted = false; // đánh dấu mảng chưa được sắp xếp
                 // kiểm tra mảng đã được tạo hay chưa nếu có thì xóa và tạo mới
-                if (this.array !== []) {
+                if (this.array.length !== []) {
+                    console.log('hi');
                     this.array = [];
                 }
 
@@ -78,9 +101,16 @@
                 }
             },
             create() {
-                this.isSorted = false; // đánh dấu mảng chưa được sắp xếp
                 if (this.arrayInput === '') {
-                    alert("Empty!!!");
+                    // alert("Dữ liệu đầu vào không đúng");
+                    swalert
+                        .fire({
+                            title: "Đầu vào không đúng",
+                            icon: "warning",
+                            text: "Dữ liệu đầu vào rỗng!",
+                            showCloseButton: true,
+                            // showCancelButton: true,
+                        });
                 } else {
                     // kiểm tra array gốc xem nó có phần tử hay chưa, nếu có thì xóa
                     if (this.array !== []) {
@@ -112,7 +142,6 @@
                                 });
                         }
                     }
-
                     // thêm x, y để tạo hiệu ứng transform
                     let x = 0;
                     for (let i = 0; i < this.array.length; i++) {
@@ -122,8 +151,17 @@
                     }
                 }
             },
-            start() {
-                if (this.isSorted) {
+            async start() {
+                if (this.array.length === 0) {
+                    swalert
+                        .fire({
+                            title: "Lỗi",
+                            icon: "warning",
+                            text: "Chưa tạo mảng",
+                            showCloseButton: true,
+                            // showCancelButton: true,
+                        });
+                } else if (this.isSorted) {
                     swalert
                         .fire({
                             title: "Lỗi",
@@ -132,18 +170,28 @@
                             showCloseButton: true,
                             // showCancelButton: true,
                         });
-                } else {
-                    this.$refs[this.statusChoiceAlogirthm].start();
-                    this.isSorted = true;
+                } else if (!this.isSorted && !this.isSorting) {
+                    this.isSorting = true; // đánh dấu mảng đang được sắp xếp
+                    try {
+                        await this.$refs[this.statusChoiceAlogirthm].start();
+                        this.isSorted = true; // đánh dấu mảng đã được sắp xếp
+                        this.isSorting = false; // đánh dấu thuật toán đã dừng
+                    } catch (error) {
+                        // khi xóa mảng một cách đột ngột set lại các thuộc tính Sorted và Sorting
+                        console.log("Xóa mảng thành công!!!");
+                        this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
+                        this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
+                    }
                 }
             },
             clear() {
+                this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
                 this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                 this.array = [];
             }
         },
         created() {
-            this.random();
+            this.randomWhenToStart();
         }
     }
 </script>

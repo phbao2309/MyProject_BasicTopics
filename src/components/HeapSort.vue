@@ -26,7 +26,7 @@
         props: ['array', 'colors'],
         methods: {
             async start() {
-               heapsort(this.array.length, this.array, this.colors);
+               await heapsort(this.array.length, this.array, this.colors);
             },
         }
     }

@@ -95,5 +95,5 @@ async function heapsort(array, n, colors) {
 }
 
 export default async function (length, array, colors) {
-    heapsort(array, length, colors);
+    await heapsort(array, length, colors);
 }

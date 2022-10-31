@@ -100,5 +100,5 @@ async function quicksort(array, i, j, colors) {
 }
 
 export default async function (length, array, colors) {
-    quicksort(array, 0, length - 1, colors);
+    await quicksort(array, 0, length - 1, colors);
 }
