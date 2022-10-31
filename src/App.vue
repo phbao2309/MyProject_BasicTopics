@@ -398,12 +398,13 @@
     @media only screen and (max-width: 1200px) {
         .navigation {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             padding-left: 0px;
         }
 
         .title {
             margin-right: 0px;
+            font-size: 14px;
         }
 
         .main {
@@ -416,7 +417,7 @@
             margin-bottom: 5px;
             width: 100%;
             display: flex;
-            justify-content: center;
+            padding-left: 10px;
         }
 
     }
