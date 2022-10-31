@@ -37,7 +37,7 @@
                     selected: 'rgb(220, 20, 60)',
                     pivot: 'rgb(153, 50, 204)',
                 },
-                width: window.innerWidth
+                width: window.orientation,
             }
         },
         methods: {
@@ -190,7 +190,8 @@
                 this.array = [];
             },
             notificationWhenScreenMobile() {
-                if (this.width < 500) {
+                console.log(this.width);
+                if (this.width === 0) {
                     swalert
                         .fire({
                             title: "Lỗi",
@@ -326,7 +327,7 @@
         </div>
     </div>
     
-    <div class="main" :class="{'main_display': width < 500}">
+    <div class="main">
         <bubble-sort 
             :array="array" :colors="colors" 
             v-if="statusChoiceAlogirthm === 'bubble'" 
@@ -433,8 +434,16 @@
             padding-left: 10px;
         }
 
-        .main_display {
-            display: none;
+        @media (orientation: portrait) {
+            .main {
+                display: none;
+            }
+        }
+
+        @media (orientation: landscape) {
+            .main {
+                display: block;
+            }
         }
     }
 </style>
