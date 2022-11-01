@@ -2,7 +2,7 @@
     // import swalert
     import { swalert, swtoast } from "@/mixins/swal.mixin";
     // import tool
-    import { shuffed } from './utils/tool.js';
+    import { shuffed, sleep } from './utils/tool.js';
     // import component
     import BubbleSort from './components/BubbleSort.vue';
     import ShakerSort from './components/ShakerSort.vue';
@@ -25,8 +25,8 @@
             return {
                 array: [], // một mảng gồm các opject {data, x, y, selected, sorted}
                 arrayInput: '10, 14, 8, 9, 20',
-                length:  Math.floor(Math.random() * 10) + 5,
-                statusChoiceAlogirthm: 'shaker', // trạng thái chọn thuật toán, mặc định là bubble sort
+                length:  Math.floor(Math.random() * 5) + 10,
+                statusChoiceAlogirthm: 'bubble', // trạng thái chọn thuật toán, mặc định là bubble sort
                 isSorted: false, // đánh dấu mảng chưa được sắp xếp
                 isSorting: false, // đánh dấu mảng đang sắp xếp 
                 // bảng màu dành cho việc đánh dấu
@@ -38,39 +38,22 @@
                     pivot: 'rgb(153, 50, 204)',
                 },
                 width: window.orientation,
+                count: 0, // sử dụng để đếm số lần random mà hiển thị thông báo cho phù hợp
             }
         },
         methods: {
-            randomWhenToStart() {
-                this.isSorted = false; // đánh dấu mảng chưa được sắp xếp
-                // mảng chứa các phần tử từ 1 đến lenght
-                for (let i = 0; i < this.length; i++) {
-                    this.array.push({
-                        data: Math.floor(Math.random() * 20) + 1,
-                        color: 'rgb(173, 216, 230)',
-                    });
-                }
-
-                // trộn ngẫu nhiên các phần tử trong mảng
-                this.array = shuffed(shuffed(shuffed(this.array)));
-
-                // thêm x, y để tạo hiệu ứng transform
-                let x = 0;
-                for (let i = 0; i < this.length; i++) {
-                    x += 40;
-                    this.array[i].x = x;
-                    this.array[i].y = 0;
-                }
-            },
-            random() {
-                this.isSorted = false; // đánh dấu mảng chưa được sắp xếp
+            // random nhận vào title là tên của thuật toán
+            random(title) {
+                this.statusChoiceAlogirthm = title;
+                this.count++;
+                this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
+                this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                 // kiểm tra mảng đã được tạo hay chưa nếu có thì xóa và tạo mới
-                if (this.array.length !== []) {
-                    console.log('hi');
+                if (this.array !== []) {
                     this.array = [];
                 }
 
-                if (this.length <= 20 && this.length >= 5) {
+                if (this.length <= 15 && this.length >= 5) {
                     // mảng chứa các phần tử từ 1 đến lenght
                     for (let i = 0; i < this.length; i++) {
                         this.array.push({
@@ -89,15 +72,19 @@
                         this.array[i].x = x;
                         this.array[i].y = 0;
                     }
-                    swtoast.success({
-                        text: "Tạo mảng thành công"
-                    });
+
+                    if (this.count > 1) {
+                        swtoast.success({
+                            text: "Tạo mảng thành công"
+                        });
+                    }
+
                 } else {
                     swalert
                         .fire({
                             title: "Đầu vào không đúng",
                             icon: "warning",
-                            text: "Giới hạn dữ liệu đầu vào từ 5 đến 20",
+                            text: "Giới hạn dữ liệu đầu vào từ 5 đến 15",
                         });
                 }
             },
@@ -118,48 +105,58 @@
                         this.array = [];
                     }
 
-                    // tách và kiểm tra chuỗi
-                    let count = 0;
-                    for (let i = 0; i < this.arrayInput.split(/[,:]/).length; i++) {
-                        // kiểm tra xem phần tử có phải là số hay không
-                        if (
-                            parseInt(this.arrayInput.split(/[,;]/)[i]) &&
-                            parseInt(this.arrayInput.split(/[,;]/)[i]) > 0 &&
-                            parseInt(this.arrayInput.split(/[,;]/)[i]) <= 20
-                        ) {
-                            let number = parseInt(this.arrayInput.split(/[,;]/)[i]);
-                            console.log(parseInt(this.arrayInput.split(/[,;]/)[i]));
-                            this.array.push({
-                                data: number,
-                                color: this.colors.default,
-                            })
-                        } else {
-                            count ++;
-                            swalert
-                                .fire({
-                                    title: "Đầu vào không đúng",
-                                    icon: "warning",
-                                    text: "Dữ liệu giới hạn tối đa cho mỗi phần tử là 20 và được cách nhau bởi dấu ',' hoặc ';'",
-                                });
-                        }
-                    }
-                    
-                    if (count != 0) {
-                        this.array = [];
-                    }
-
-                    // thêm x, y để tạo hiệu ứng transform
-                    if (this.array.length !== 0) {
-                        let x = 0;
-                        for (let i = 0; i < this.array.length; i++) {
-                            x += 40;
-                            this.array[i].x = x;
-                            this.array[i].y = 0;
+                    if (
+                        this.arrayInput.split(/[,:]/).length >= 5 &&
+                        this.arrayInput.split(/[,:]/).length <= 15 
+                    ) {
+                        let count = 0;
+                        // tách và kiểm tra chuỗi
+                        for (let i = 0; i < this.arrayInput.split(/[,:]/).length; i++) {
+                            // kiểm tra xem phần tử có phải là số hay không
+                            if (
+                                parseInt(this.arrayInput.split(/[,;]/)[i]) &&
+                                parseInt(this.arrayInput.split(/[,;]/)[i]) > 0 &&
+                                parseInt(this.arrayInput.split(/[,;]/)[i]) <= 20
+                            ) {
+                                let number = parseInt(this.arrayInput.split(/[,;]/)[i]);
+                                this.array.push({
+                                    data: number,
+                                    color: this.colors.default,
+                                })
+                            } else {
+                                count ++; // dùng để đếm các phần tử không hợp lệ
+                                swalert
+                                    .fire({
+                                        title: "Đầu vào không đúng",
+                                        icon: "warning",
+                                        text: "Dữ liệu giới hạn tối đa cho mỗi phần tử là 20 và được cách nhau bởi dấu ',' hoặc ';'",
+                                    });
+                            }
                         }
                         
-                        swtoast.success({
-                            text: "Tạo mảng thành công"
-                        });
+                        if (count != 0) {
+                            this.array = [];
+                        }
+
+                        // thêm x, y để tạo hiệu ứng transform
+                        if (this.array.length !== 0) {
+                            let x = 0;
+                            for (let i = 0; i < this.array.length; i++) {
+                                x += 40;
+                                this.array[i].x = x;
+                                this.array[i].y = 0;
+                            }
+                            swtoast.success({
+                                text: "Tạo mảng thành công"
+                            });
+                        }
+                    } else {
+                        swalert
+                            .fire({
+                                title: "Lỗi",
+                                icon: "warning",
+                                text: "Đầu vào phải từ 5 phần tử đến 15 phần tử",
+                            });
                     }
                 }
             },
@@ -186,7 +183,6 @@
                         this.isSorting = false; // đánh dấu thuật toán đã dừng
                     } catch (error) {
                         // khi xóa mảng một cách đột ngột set lại các thuộc tính Sorted và Sorting
-                        console.log("Xóa mảng thành công!!!");
                         this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
                         this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                     }
@@ -197,8 +193,8 @@
                 this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                 this.array = [];
             },
+            // Hiển thị thông báo khi sử dụng trên mobile với kích thước hiển thị không phù hợp
             notificationWhenScreenMobile() {
-                console.log(this.width);
                 if (this.width === 0) {
                     swalert
                         .fire({
@@ -211,7 +207,7 @@
         },
         created() {
             this.notificationWhenScreenMobile();
-            this.randomWhenToStart();
+            this.random(this.statusChoiceAlogirthm);
         }
     }
 </script>
@@ -222,37 +218,37 @@
             <p 
                 class="title-item" 
                 :class="{'title-item-choice': statusChoiceAlogirthm === 'bubble'}"
-                @click="statusChoiceAlogirthm = 'bubble'"
+                @click="random('bubble')"
             >Bubble sort</p>
             <p 
                 class="title-item"
                 :class="{'title-item-choice': statusChoiceAlogirthm === 'shaker'}"
-                @click="statusChoiceAlogirthm = 'shaker'"
+                @click="random('shaker')"
             >Shaker sort</p>
             <p 
                 class="title-item"
                 :class="{'title-item-choice': statusChoiceAlogirthm === 'quick'}"
-                @click="statusChoiceAlogirthm = 'quick'"
+                @click="random('quick')"
             >Quick sort</p>
             <p 
                 class="title-item"
                 :class="{'title-item-choice': statusChoiceAlogirthm === 'merge'}"
-                @click="statusChoiceAlogirthm = 'merge'"
+                @click="random('merge')"
             >Merge sort</p>
             <p 
                 class="title-item"
                 :class="{'title-item-choice': statusChoiceAlogirthm === 'heap'}"
-                @click="statusChoiceAlogirthm = 'heap'"
+                @click="random('heap')"
             >Heap sort</p>
             <p 
                 class="title-item" 
                 :class="{'title-item-choice': statusChoiceAlogirthm === 'selection'}"
-                @click="statusChoiceAlogirthm = 'selection'"
+                @click="random('selection')"
             >Selection sort</p>
             <p 
                 class="title-item" 
                 :class="{'title-item-choice': statusChoiceAlogirthm === 'insertion'}"
-                @click="statusChoiceAlogirthm = 'insertion'"
+                @click="random('insertion')"
             >Insertion sort</p>
         </span>
 
@@ -308,7 +304,7 @@
                 <button
                     style="width: 100px;"
                     type="button" class="btn btn-secondary btn-sm"
-                    @click="random()"
+                    @click="random(statusChoiceAlogirthm)"
                 >
                     Random
                 </button>
