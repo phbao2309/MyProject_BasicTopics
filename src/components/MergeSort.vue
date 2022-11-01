@@ -20,11 +20,13 @@
 </template>
 
 <script>
+    import mergesort from '../utils/mergesort'
+
     export default {
         props: ['array', 'colors'],
         methods: {
             async start() {
-               alert("Chưa cài đặt thuật toán.");
+               mergesort(this.array.length, this.array, this.colors);
             },
         }
     }

@@ -2,7 +2,7 @@
     // import swalert
     import { swalert, swtoast } from "@/mixins/swal.mixin";
     // import tool
-    import { shuffed, sleep } from './utils/tool.js';
+    import { shuffed } from './utils/tool.js';
     // import component
     import BubbleSort from './components/BubbleSort.vue';
     import ShakerSort from './components/ShakerSort.vue';
@@ -26,7 +26,7 @@
                 array: [], // một mảng gồm các opject {data, x, y, selected, sorted}
                 arrayInput: '10, 14, 8, 9, 20',
                 length:  Math.floor(Math.random() * 5) + 10,
-                statusChoiceAlogirthm: 'bubble', // trạng thái chọn thuật toán, mặc định là bubble sort
+                statusChoiceAlogirthm: 'merge', // trạng thái chọn thuật toán, mặc định là bubble sort
                 isSorted: false, // đánh dấu mảng chưa được sắp xếp
                 isSorting: false, // đánh dấu mảng đang sắp xếp 
                 // bảng màu dành cho việc đánh dấu
@@ -36,6 +36,8 @@
                     sorted: 'rgb(255, 165, 0)',
                     selected: 'rgb(220, 20, 60)',
                     pivot: 'rgb(153, 50, 204)',
+                    left: 'rgb(0, 191, 255)',
+                    right: 'rgb(128, 255, 0)',
                 },
                 width: window.orientation,
                 count: 0, // sử dụng để đếm số lần random mà hiển thị thông báo cho phù hợp
@@ -46,12 +48,14 @@
             random(title) {
                 this.statusChoiceAlogirthm = title;
                 this.count++;
-                this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
-                this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
+                
                 // kiểm tra mảng đã được tạo hay chưa nếu có thì xóa và tạo mới
                 if (this.array !== []) {
                     this.array = [];
                 }
+
+                this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
+                this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
 
                 if (this.length <= 15 && this.length >= 5) {
                     // mảng chứa các phần tử từ 1 đến lenght
@@ -259,6 +263,12 @@
                 data-bs-target="#offcanvasWithBothOptions" 
                 aria-controls="offcanvasWithBothOptions"
             >Custom</button>
+
+            <button 
+                class="btn-right btn btn-secondary btn-sm" type="button" 
+                style="margin-left: 5px; width: 65.5px;"
+                @click="random(statusChoiceAlogirthm)"
+            >Random</button>
 
             <button 
                 class="btn btn-secondary btn-sm" type="button" 
