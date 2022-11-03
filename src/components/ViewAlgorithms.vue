@@ -1,13 +1,26 @@
 <template>
     <div>
-        <!-- <view-bubble-vue/> -->
-        <!-- <view-heap-vue/> -->
-        <!-- <view-insertion-vue/> -->
-        <!-- <view-merge-vue/> -->
-        <!-- <view-quick-vue/> -->
-        <!-- <view-selection-vue/> -->
-        <view-shaker-vue/>
-
+        <view-heap-vue 
+            v-if="statusChoiceAlogirthm === 'heap'" 
+        />
+        <view-merge-vue 
+            v-if="statusChoiceAlogirthm === 'merge'"
+        />
+        <view-quick-vue 
+            v-if="statusChoiceAlogirthm === 'quick'"
+        />
+        <view-bubble-vue 
+            v-if="statusChoiceAlogirthm === 'bubble'"
+        />
+        <view-shaker-vue 
+            v-if="statusChoiceAlogirthm === 'shaker'"
+        />
+        <view-selection-vue 
+            v-if="statusChoiceAlogirthm === 'selection'"
+        />
+        <view-insertion-vue 
+            v-if="statusChoiceAlogirthm === 'insertion'"
+        />
     </div>
 </template>
 
@@ -21,6 +34,7 @@
     import ViewShakerVue from '../view/ViewShaker.vue';
 
     export default {
+        props: ['statusChoiceAlogirthm'],
         components: {
             ViewBubbleVue,
             ViewHeapVue,

@@ -380,7 +380,7 @@
                 ref="insertion"
             />
         </div>
-        <view-algorithms class="view-item"/>
+        <view-algorithms class="view-item" :statusChoiceAlogirthm="statusChoiceAlogirthm"/>
     </div>
     
     
@@ -402,7 +402,7 @@
 
     .navigation {
         width: 100%;
-        padding-left: 50px;
+        padding-left: 20px;
         display: flex;
         align-items: center;
         min-height: 50px;
@@ -471,6 +471,7 @@
 
             .view-item {
                 padding: 0px;
+                display: none;
             }
         }
     }
