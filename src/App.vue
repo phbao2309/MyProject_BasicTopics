@@ -2,7 +2,7 @@
     // import swalert
     import { swalert, swtoast } from "@/mixins/swal.mixin";
     // import tool
-    import { shuffed } from './utils/tool.js';
+    import { shuffed } from './utils/tools.js';
     // import component
     import BubbleSort from './components/BubbleSort.vue';
     import ShakerSort from './components/ShakerSort.vue';
@@ -11,6 +11,8 @@
     import HeapSort from './components/HeapSort.vue';
     import SelectionSort from './components/SelectionSort.vue';
     import InsertionSort from './components/InsertionSort.vue';
+    // import view : dùng để hiển thị thuật toán
+    import ViewAlgorithms from './components/ViewAlgorithms.vue';
     export default {
         components: { 
             BubbleSort,
@@ -20,13 +22,14 @@
             HeapSort,
             SelectionSort,
             InsertionSort,
+            ViewAlgorithms,
         },
         data() {
             return {
                 array: [], // một mảng gồm các opject {data, x, y, selected, sorted}
                 arrayInput: '10, 14, 8, 9, 20',
                 length:  Math.floor(Math.random() * 5) + 10,
-                statusChoiceAlogirthm: 'merge', // trạng thái chọn thuật toán, mặc định là bubble sort
+                statusChoiceAlogirthm: 'bubble', // trạng thái chọn thuật toán, mặc định là bubble sort
                 isSorted: false, // đánh dấu mảng chưa được sắp xếp
                 isSorting: false, // đánh dấu mảng đang sắp xếp 
                 // bảng màu dành cho việc đánh dấu
@@ -340,42 +343,47 @@
     </div>
     
     <div class="main">
-        <bubble-sort 
-            :array="array" :colors="colors" 
-            v-if="statusChoiceAlogirthm === 'bubble'" 
-            ref="bubble"
-        />
-        <shaker-sort 
-            :array="array" :colors="colors"
-            v-if="statusChoiceAlogirthm === 'shaker'" 
-            ref="shaker"
-        />
-        <quick-sort 
-            :array="array" :colors="colors"
-            v-if="statusChoiceAlogirthm === 'quick'"
-            ref="quick"
-        />
-        <merge-sort 
-            :array="array" :colors="colors"
-            v-if="statusChoiceAlogirthm === 'merge'" 
-            ref="merge"
-        />
-        <heap-sort 
-            :array="array" :colors="colors" 
-            v-if="statusChoiceAlogirthm === 'heap'" 
-            ref="heap"
-        />
-        <selection-sort 
-            :array="array" :colors="colors" 
-            v-if="statusChoiceAlogirthm === 'selection'" 
-            ref="selection"
-        />
-        <insertion-sort 
-            :array="array" :colors="colors" 
-            v-if="statusChoiceAlogirthm === 'insertion'" 
-            ref="insertion"
-        />
+        <div class="main-item">
+            <bubble-sort 
+                :array="array" :colors="colors" 
+                v-if="statusChoiceAlogirthm === 'bubble'" 
+                ref="bubble"
+            />
+            <shaker-sort 
+                :array="array" :colors="colors"
+                v-if="statusChoiceAlogirthm === 'shaker'" 
+                ref="shaker"
+            />
+            <quick-sort 
+                :array="array" :colors="colors"
+                v-if="statusChoiceAlogirthm === 'quick'"
+                ref="quick"
+            />
+            <merge-sort 
+                :array="array" :colors="colors"
+                v-if="statusChoiceAlogirthm === 'merge'" 
+                ref="merge"
+            />
+            <heap-sort 
+                :array="array" :colors="colors" 
+                v-if="statusChoiceAlogirthm === 'heap'" 
+                ref="heap"
+            />
+            <selection-sort 
+                :array="array" :colors="colors" 
+                v-if="statusChoiceAlogirthm === 'selection'" 
+                ref="selection"
+            />
+            <insertion-sort 
+                :array="array" :colors="colors" 
+                v-if="statusChoiceAlogirthm === 'insertion'" 
+                ref="insertion"
+            />
+        </div>
+        <view-algorithms class="view-item"/>
     </div>
+    
+    
 </template>
 
 <style scoped>
@@ -384,9 +392,12 @@
         padding: 0px;
     }
 
-    .main {
-        width: 100%;
-        padding-left: 20px;
+    .main{
+        display: flex;
+    }
+
+    .main-item {
+        width: 50%;
     }
 
     .navigation {
@@ -433,7 +444,8 @@
             font-size: 12px;
         }
 
-        .main {
+        .main-item {
+            width: 100%;
             margin-left: 0px;
             padding-left: 0px;
         }
@@ -455,6 +467,10 @@
         @media (orientation: landscape) {
             .main {
                 display: block;
+            }
+
+            .view-item {
+                padding: 0px;
             }
         }
     }

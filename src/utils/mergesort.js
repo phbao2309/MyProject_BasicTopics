@@ -1,4 +1,4 @@
-import { sleep } from './tool';
+import { sleep } from './tools';
 
 // Gọp 2 mảng con arr[l...m] và arr[m+1...r]
 async function merge(array, l, m, r, colors) {

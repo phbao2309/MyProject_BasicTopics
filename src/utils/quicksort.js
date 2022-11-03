@@ -1,4 +1,4 @@
-import { sleep } from "./tool";
+import { sleep } from "./tools";
 
 async function findpivot(array, i, j) {
     let firstkey = array[i].data;

@@ -1,4 +1,4 @@
-import { sleep } from '../utils/tool';
+import { sleep } from './tools';
 
 export default async function(array, colors) {
     let length = array.length;

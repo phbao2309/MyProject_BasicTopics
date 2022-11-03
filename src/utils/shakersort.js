@@ -1,4 +1,4 @@
-import { sleep } from "./tool";
+import { sleep } from "./tools";
 
 export default async function(array, colors) {
     let left = 0;

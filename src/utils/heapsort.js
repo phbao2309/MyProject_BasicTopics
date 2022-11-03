@@ -1,4 +1,4 @@
-import { sleep } from './tool';
+import { sleep } from './tools';
 
 async function heapify(array, n, i, colors) {
     let largest = i; // khởi tạo root   
