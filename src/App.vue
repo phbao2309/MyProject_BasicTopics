@@ -39,8 +39,8 @@
                     sorted: 'rgb(255, 165, 0)',
                     selected: 'rgb(220, 20, 60)',
                     pivot: 'rgb(153, 50, 204)',
-                    left: 'rgb(0, 191, 255)',
-                    right: 'rgb(128, 255, 0)',
+                    left: 'rgb(255, 255, 0)',
+                    right: 'rgb(220, 20, 60)',
                 },
                 width: window.orientation,
                 count: 0, // sử dụng để đếm số lần random mà hiển thị thông báo cho phù hợp
@@ -48,7 +48,7 @@
         },
         methods: {
             // random nhận vào title là tên của thuật toán
-            random(title) {
+            random(title, notification) {
                 this.statusChoiceAlogirthm = title;
                 this.count++;
                 
@@ -80,18 +80,18 @@
                         this.array[i].y = 0;
                     }
 
-                    if (this.count > 1) {
+                    if (this.count > 1 && notification === 1) {
                         swtoast.success({
-                            text: "Tạo mảng thành công"
+                            text: "Create array successfully"
                         });
                     }
 
                 } else {
                     swalert
                         .fire({
-                            title: "Đầu vào không đúng",
+                            title: "Input of incorrect",
                             icon: "warning",
-                            text: "Giới hạn dữ liệu đầu vào từ 5 đến 15",
+                            text: "Input allowable from 5 to 15",
                         });
                 }
             },
@@ -100,9 +100,9 @@
                     // alert("Dữ liệu đầu vào không đúng");
                     swalert
                         .fire({
-                            title: "Đầu vào không đúng",
+                            title: "Input of incorrect",
                             icon: "warning",
-                            text: "Dữ liệu đầu vào rỗng!",
+                            text: "Input is empty",
                         });
                 } else {
                     this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
@@ -134,9 +134,9 @@
                                 count ++; // dùng để đếm các phần tử không hợp lệ
                                 swalert
                                     .fire({
-                                        title: "Đầu vào không đúng",
+                                        title: "Input of incorrect",
                                         icon: "warning",
-                                        text: "Dữ liệu giới hạn tối đa cho mỗi phần tử là 20 và được cách nhau bởi dấu ',' hoặc ';'",
+                                        text: "The maximum data limit per element is 20 and is separated by ',' or ';'",
                                     });
                             }
                         }
@@ -154,7 +154,7 @@
                                 this.array[i].y = 0;
                             }
                             swtoast.success({
-                                text: "Tạo mảng thành công"
+                                text: "Create array successfully"
                             });
                         }
                     } else {
@@ -171,16 +171,17 @@
                 if (this.array.length === 0) {
                     swalert
                         .fire({
-                            title: "Lỗi",
+                            title: "Error",
                             icon: "warning",
-                            text: "Chưa tạo mảng",
+                            text: "Haven't created array yet",
                         });
                 } else if (this.isSorted) {
+                    // this.random(this.statusChoiceAlogirthm, 1);
                     swalert
                         .fire({
-                            title: "Lỗi",
-                            icon: "warning",
-                            text: "Mảng đã được sắp xếp",
+                            title: "Success",
+                            icon: "success",
+                            text: "The array is sorted",
                         });
                 } else if (!this.isSorted && !this.isSorting) {
                     this.isSorting = true; // đánh dấu mảng đang được sắp xếp
@@ -205,9 +206,9 @@
                 if (this.width === 0) {
                     swalert
                         .fire({
-                            title: "Lỗi",
+                            title: "Recommendation",
                             icon: "warning",
-                            text: "Hãy xoay màn hình ngang để có trãi nghiệm tốt hơn",
+                            text: "Please rotate the screen horizontally for a better experience",
                         });
                 }
             }
@@ -270,7 +271,7 @@
             <button 
                 class="btn-right btn btn-secondary btn-sm" type="button" 
                 style="margin-left: 5px; width: 65.5px;"
-                @click="random(statusChoiceAlogirthm)"
+                @click="random(statusChoiceAlogirthm, 1)"
             >Random</button>
 
             <button 
@@ -317,7 +318,7 @@
                 <button
                     style="width: 100px;"
                     type="button" class="btn btn-secondary btn-sm"
-                    @click="random(statusChoiceAlogirthm)"
+                    @click="random(statusChoiceAlogirthm, 1)"
                 >
                     Random
                 </button>
@@ -397,19 +398,20 @@
     }
 
     .main-item {
-        width: 50%;
+        width: 60%;
     }
 
     .navigation {
         width: 100%;
-        padding-left: 20px;
         display: flex;
         align-items: center;
         min-height: 50px;
         background-color: black;
     }
     .title {
-        margin-right: 20px;
+        width: 60%;
+        margin-right: 10px;
+        padding-right: 10px;
         color: #aaa;
         font-size: 16px;
         text-transform: uppercase;
@@ -417,7 +419,7 @@
     }
 
     .title-item {
-        width: 85px;
+        /* width: 85px; */
         display: inline;
         margin: 10px;
         cursor: pointer;
@@ -441,7 +443,11 @@
 
         .title {
             margin-right: 0px;
-            font-size: 12px;
+            /* font-size: 12px; */
+        }
+
+        .title-item {
+            margin: 0px 10px;
         }
 
         .main-item {
@@ -452,7 +458,7 @@
 
         .navigation-item {
             margin-top: 5px;
-            margin-bottom: 5px;
+            margin-bottom: 7px;
             width: 100%;
             display: flex;
             padding-left: 10px;
@@ -467,6 +473,11 @@
         @media (orientation: landscape) {
             .main {
                 display: block;
+            }
+
+            .title {
+                width: 100%;
+                display: flex;
             }
 
             .view-item {
