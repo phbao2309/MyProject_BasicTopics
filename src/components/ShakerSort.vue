@@ -26,7 +26,7 @@
         props: ['array', 'colors'],
         methods: {
             async start() {
-                shakersort(this.array, this.colors);
+                await shakersort(this.array, this.colors);
             },
         }
     }

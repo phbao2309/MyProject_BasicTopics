@@ -26,7 +26,7 @@
         props: ['array', 'colors'],
         methods: {
             async start() {
-                bubblesort(this.array, this.colors);
+                await bubblesort(this.array, this.colors);
             },
         }
     }

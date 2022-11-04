@@ -26,7 +26,7 @@
         props: ['array', 'colors'],
         methods: {
             async start() {
-               mergesort(this.array.length, this.array, this.colors);
+               await mergesort(this.array.length, this.array, this.colors);
             },
         },
     }

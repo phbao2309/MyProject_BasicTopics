@@ -26,7 +26,7 @@
         props: ['array', 'colors'],
         methods: {
             async start() {
-                insertionsort(this.array, this.colors);
+                await insertionsort(this.array, this.colors);
             },
         }
     }

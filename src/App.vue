@@ -28,6 +28,7 @@
             return {
                 array: [], // một mảng gồm các opject {data, x, y, selected, sorted}
                 arrayInput: '10, 14, 8, 9, 20',
+                arraySave: [], // dùng để lưu trữ mảng hiện tại
                 length:  Math.floor(Math.random() * 5) + 10,
                 statusChoiceAlogirthm: 'bubble', // trạng thái chọn thuật toán, mặc định là bubble sort
                 isSorted: false, // đánh dấu mảng chưa được sắp xếp
@@ -160,9 +161,9 @@
                     } else {
                         swalert
                             .fire({
-                                title: "Lỗi",
+                                title: "Input of incorrect",
                                 icon: "warning",
-                                text: "Đầu vào phải từ 5 phần tử đến 15 phần tử",
+                                text: "Input allowable from 5 to 15",
                             });
                     }
                 }
