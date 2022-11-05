@@ -30,7 +30,6 @@
 </template>
 
 <script>
-    // import mergesort from '../utils/mergesort';
     import { sleep } from '../utils/tools';
 
     export default {

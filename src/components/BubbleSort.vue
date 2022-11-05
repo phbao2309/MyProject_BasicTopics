@@ -3,7 +3,7 @@
         <button 
             id="play" class="control-item"
         >Play</button>
-        <button 
+        <button
             class="control-item" 
             @click="pause()"
         >Pause</button>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-    // import bubblesort from '../utils/bubblesort';
     import { sleep } from '../utils/tools';
 
     export default {

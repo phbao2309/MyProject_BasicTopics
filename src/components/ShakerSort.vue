@@ -30,7 +30,6 @@
 </template>
 
 <script>
-    // import shakersort from '../utils/shakersort';
     import { sleep } from '../utils/tools';
 
     export default {
@@ -55,7 +54,6 @@
                 this.status = 1;
             },  
             async start() {
-                // shakersort(this.this.array, this.this.colors);
                 let left = 0;
                 let right = this.array.length - 1;
                 let k = 0;

@@ -30,7 +30,6 @@
 </template>
 
 <script>
-    // import heapsort from '../utils/heapsort';
     import { sleep } from '../utils/tools';
 
     export default {

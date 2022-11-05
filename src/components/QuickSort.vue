@@ -30,7 +30,6 @@
 </template>
 
 <script>
-    // import quicksort from '../utils/quicksort';
     import { sleep } from '../utils/tools';
 
     export default {
