@@ -22,7 +22,12 @@
     text-align: center;
 }
 
-/* Tối ưu cho mobile */
-@media only screen and (max-width: 400px) {
-    
+
+.control {
+    margin-top: 10px;
+    padding-left: 50px;
+}
+
+.control-item {
+    margin-right: 5px;
 }

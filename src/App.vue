@@ -2,7 +2,7 @@
     // import swalert
     import { swalert, swtoast } from "@/mixins/swal.mixin";
     // import tool
-    import { shuffed } from './utils/tools.js';
+    import { shuffed, sleep } from './utils/tools.js';
     // import component
     import BubbleSort from './components/BubbleSort.vue';
     import ShakerSort from './components/ShakerSort.vue';
@@ -49,7 +49,7 @@
         },
         methods: {
             // random nhận vào title là tên của thuật toán
-            random(title, notification) {
+            async random(title, notification) {
                 this.statusChoiceAlogirthm = title;
                 this.count++;
                 
@@ -57,6 +57,8 @@
                 if (this.array !== []) {
                     this.array = [];
                 }
+
+                await sleep(100);
 
                 this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
                 this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
@@ -177,13 +179,9 @@
                             text: "Haven't created array yet",
                         });
                 } else if (this.isSorted) {
-                    // this.random(this.statusChoiceAlogirthm, 1);
-                    swalert
-                        .fire({
-                            title: "Success",
-                            icon: "success",
-                            text: "The array is sorted",
-                        });
+
+                    this.random(this.statusChoiceAlogirthm, 1);
+
                 } else if (!this.isSorted && !this.isSorting) {
                     this.isSorting = true; // đánh dấu mảng đang được sắp xếp
                     try {
@@ -192,6 +190,7 @@
                         this.isSorting = false; // đánh dấu thuật toán đã dừng
                     } catch (error) {
                         // khi xóa mảng một cách đột ngột set lại các thuộc tính Sorted và Sorting
+                        // console.log(error);
                         this.isSorting = false; // đánh dấu thuật toán chưa được kích hoạt
                         this.isSorted = false; // đánh dáu lại mảng chưa được sắp xếp
                     }
@@ -347,7 +346,7 @@
     <div class="main">
         <div class="main-item">
             <bubble-sort 
-                :array="array" :colors="colors" 
+                :array="array" :colors="colors"
                 v-if="statusChoiceAlogirthm === 'bubble'" 
                 ref="bubble"
             />
