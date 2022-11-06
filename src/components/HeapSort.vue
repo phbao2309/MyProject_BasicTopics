@@ -1,12 +1,23 @@
 <template>
     <div class="control">
-        <button 
-            id="play" class="control-item"
-        >Play</button>
-        <button 
-            class="control-item" 
+        <p 
+            id="play"
+            :class="{'control-item': displayPlay}"
+            @click="play()"
+        ><font-awesome-icon icon="fa-solid fa-circle-play" size="2x" /></p>
+        <p
+            :class="{'control-item': displayPause}"
             @click="pause()"
-        >Pause</button>
+        ><font-awesome-icon icon="fa-solid fa-circle-pause" size="2x" /></p>
+
+        <input 
+            type="range" 
+            class="form-range" 
+            min="1" max="3" step="1" 
+            id="customRange3"
+            v-model="inputValue"
+        >
+        <p class="fast-number">{{inputValue}}x</p>
     </div>
 
     <div class="element" style="height: 250px;"></div>
@@ -37,6 +48,10 @@
         data() {
             return {
                 status: 0,
+                displayPause: false,
+                displayPlay: true,
+                inputValue: 2,
+                speed: 200,
             }
         },
         methods: {
@@ -50,7 +65,13 @@
                     document.getElementById("play").addEventListener("click", playbuttonClick)
                 })
             },
+            play() {
+                this.displayPlay = true;
+                this.displayPause = false;
+            },
             pause() {
+                this.displayPlay = false;
+                this.displayPause = true;
                 this.status = 1;
             },
             async heapify(array, n, i, colors) {
@@ -62,7 +83,8 @@
                 array[largest].color = colors.pivot;
                 if (l < n) array[l].color = colors.run;
                 if (r < n) array[r].color = colors.run;
-
+                await sleep(this.speed / this.inputValue);
+                
                 if (this.status === 1) await this.pauser(); // stop
 
                 // nếu con trái lớn hơn phần tử root
@@ -83,7 +105,7 @@
                     for (let speed = 0; speed < findspeed * 8; speed ++) {
                         array[i].x += 5;
                         array[largest].x -= 5;
-                        await sleep(20);
+                        await sleep((this.speed / 5) / this.inputValue);
                     }
 
                     array[i].x += findspeed * 5;
@@ -128,7 +150,7 @@
                     // đánh dấu 2 phần tử đầu và cuối
                     array[i].color = colors.selected;
                     array[0].color = colors.selected;
-                    await sleep(100);
+                    await sleep(this.speed / this.inputValue);
 
                     if (this.status === 1) await this.pauser(); // stop
 
@@ -136,7 +158,7 @@
                     for (let speed = 0; speed < i * 8; speed++) {
                         array[0].x += 5;
                         array[i].x -= 5;
-                        await sleep(20);
+                        await sleep((this.speed / 5) / this.inputValue);
                     }
 
                     // đổi phần tử đầu và phần tử cuối

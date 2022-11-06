@@ -1,12 +1,23 @@
 <template>
     <div class="control">
-        <button 
-            id="play" class="control-item"
-        >Play</button>
-        <button 
-            class="control-item" 
+        <p 
+            id="play"
+            :class="{'control-item': displayPlay}"
+            @click="play()"
+        ><font-awesome-icon icon="fa-solid fa-circle-play" size="2x" /></p>
+        <p
+            :class="{'control-item': displayPause}"
             @click="pause()"
-        >Pause</button>
+        ><font-awesome-icon icon="fa-solid fa-circle-pause" size="2x" /></p>
+
+        <input 
+            type="range" 
+            class="form-range" 
+            min="1" max="3" step="1" 
+            id="customRange3"
+            v-model="inputValue"
+        >
+        <p class="fast-number">{{inputValue}}x</p>
     </div>
 
     <div class="element" style="height: 250px;"></div>
@@ -37,6 +48,10 @@
         data() {
             return {
                 status: 0,
+                displayPause: false,
+                displayPlay: true,
+                inputValue: 2,
+                speed: 200,
             }
         },
         methods: {
@@ -50,7 +65,13 @@
                     document.getElementById("play").addEventListener("click", playbuttonClick)
                 })
             },
+            play() {
+                this.displayPlay = true;
+                this.displayPause = false;
+            },
             pause() {
+                this.displayPlay = false;
+                this.displayPause = true;
                 this.status = 1;
             },
             async start() {
@@ -60,9 +81,9 @@
                         if (this.array[j].data < this.array[j-1].data) {
                             // đánh dấu phần tử
                             this.array[j].color = this.colors.selected;
-                            await sleep(100);
+                            await sleep(this.speed / this.inputValue);
                             this.array[j-1].color = this.colors.run;
-                            await sleep(100);
+                            await sleep(this.speed / this.inputValue);
 
                             if (this.status === 1) await this.pauser(); // stop
 
@@ -71,7 +92,7 @@
                             for (let speed = 0; speed < 8; speed++) {
                                 this.array[j].x -= 5;
                                 this.array[j-1].x += 5;
-                                await sleep(40);
+                                await sleep((this.speed / 5) / this.inputValue);
                             }
 
                             // swap
