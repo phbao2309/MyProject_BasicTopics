@@ -1,12 +1,23 @@
 <template>
     <div class="control">
-        <button 
-            id="play" class="control-item"
-        >Play</button>
-        <button 
-            class="control-item" 
+        <p 
+            id="play"
+            :class="{'control-item': displayPlay}"
+            @click="play()"
+        ><font-awesome-icon icon="fa-solid fa-circle-play" size="2x" /></p>
+        <p
+            :class="{'control-item': displayPause}"
             @click="pause()"
-        >Pause</button>
+        ><font-awesome-icon icon="fa-solid fa-circle-pause" size="2x" /></p>
+
+        <input 
+            type="range" 
+            class="form-range" 
+            min="1" max="3" step="1" 
+            id="customRange3"
+            v-model="inputValue"
+        >
+        <p class="fast-number">{{inputValue}}x</p>
     </div>
 
     <div class="element" style="height: 250px;"></div>
@@ -37,6 +48,10 @@
         data() {
             return {
                 status: 0,
+                displayPause: false,
+                displayPlay: true,
+                inputValue: 2,
+                speed: 200,
             }
         },
         methods: {
@@ -50,7 +65,13 @@
                     document.getElementById("play").addEventListener("click", playbuttonClick)
                 })
             },
+            play() {
+                this.displayPlay = true;
+                this.displayPause = false;
+            },
             pause() {
+                this.displayPlay = false;
+                this.displayPause = true;
                 this.status = 1;
             },
             findpivot(array, i, j) {
@@ -77,7 +98,7 @@
                         L === pivotidx ? array[L].color = colors.pivot : array[L].color = colors.run;
                         L++;
 
-                        await sleep(100);
+                        await sleep(this.speed / this.inputValue);
 
                         if (this.status === 1) await this.pauser(); // stop
                     }
@@ -86,7 +107,7 @@
 
                         // tô màu cho phần tử con phải
                         array[R].color = colors.run;
-                        await sleep(100);
+                        await sleep(this.speed / this.inputValue);
 
                         if (this.status === 1) await this.pauser(); // stop
                     }
@@ -96,7 +117,7 @@
                         
                         // đánh dấu phần tử nhỏ hơn pivot
                         array[R].color = colors.selected;
-                        await sleep(200);
+                        await sleep(this.speed / this.inputValue);
 
                         if (this.status === 1) await this.pauser(); // stop
 
@@ -105,7 +126,7 @@
                         for (let speed = 0; speed < findspeed * 8; speed++) {
                             array[L].x += 5;
                             array[R].x -= 5;
-                            await sleep(20);
+                            await sleep((this.speed / 5) / this.inputValue);
                         }
 
                         // hủy hiệu ứng màu
