@@ -86,6 +86,8 @@
                 let L = [];
                 let R = [];
 
+                if (this.status === 1) await this.pauser(); // stop
+
                 // copy dữ liệu sang mảng tạm
                 for (i = 0; i < n1; i++) {
                     L[i] = array[l + i].data;

@@ -100,6 +100,8 @@
                 // nếu largest không phải là root
                 if (largest != i) {
 
+                    if (this.status === 1) await this.pauser(); // stop
+
                     // tạo hiệu ứng chuyển đổi
                     let findspeed = largest - i;
                     for (let speed = 0; speed < findspeed * 8; speed ++) {
@@ -111,7 +113,7 @@
                     array[i].x += findspeed * 5;
                     array[largest].x -= findspeed * 5;
 
-                    if (this.status === 1) await this.pauser(); // stop
+                    
 
                     // swap
                     let temp = array[i].data;
